@@ -1,19 +1,21 @@
 This package is a fork of [DarkGhostHunter/Laraconfig](https://github.com/DarkGhostHunter/Laraconfig), that is not maintained anymore.
 I fixed some issues, and update dependencies for use with [Laravel](https://laravel.com) 9.x
 
-- For Laravel 8.x use branch v1.x-dev
-- For Laravel 9.x use branch master
+- For Laravel 9.x use version v1.4.x
+- For Laravel 10.x use version v1.5.x
+- For Laravel 11.x use version v1.6.x
+- For Laravel 12.x use version v1.7.x
 
 To install this repository, add this to your composer.json, change `master` to the branch you want:
 ```
    "repositories":[
         {
             "type": "vcs",
-            "url": "https://github.com/ricventu/Laraconfig.git"
+            "url": "https://github.com/Hydrat-Agency/Laraconfig.git"
         }
    ],
    "require": {
-        "darkghosthunter/laraconfig": "dev-master",
+        "darkghosthunter/laraconfig": "v1.6.0",
    }
 ```
 
@@ -35,13 +37,12 @@ User::find(1)->settings->set('color', 'red');
 
 ## Requirements
 
-- Laravel 8.x (branch v1.x-dev)
-- Laravel 9.x (branch master)
-- PHP 8.0 or later
+- Laravel 9.x or later
+- PHP 8.2 or later
 
 ## How it works
 
-Laraconfig works extending Laravel relations, and includes a migration system to easily manage them. 
+Laraconfig works extending Laravel relations, and includes a migration system to easily manage them.
 
 Each Setting is just a value, and references a parent "metadata" that contains the information like the type and name, while being linked to a user.
 
@@ -71,7 +72,7 @@ use DarkGhostHunter\Laraconfig\HasConfig;
 class User extends Authenticatable
 {
     use HasConfig;
-    
+
     // ...
 }
 ```
@@ -102,7 +103,7 @@ use DarkGhostHunter\Laraconfig\Facades\Setting;
 Setting::name('dark_mode')->boolean();
 ```
 
-Laraconfig is compatible with 7 types of settings, mirroring their PHP native types, along the Collection and Datetime (Carbon) objects. 
+Laraconfig is compatible with 7 types of settings, mirroring their PHP native types, along the Collection and Datetime (Carbon) objects.
 
 * `array()`
 * `boolean()`
@@ -112,7 +113,7 @@ Laraconfig is compatible with 7 types of settings, mirroring their PHP native ty
 * `integer()`
 * `string()`
 
-> Arrays and Collections are serialized in the database as JSON. 
+> Arrays and Collections are serialized in the database as JSON.
 
 ### Default value
 
@@ -146,7 +147,7 @@ Setting::name('color')->group('theme');
 
 ### Bag
 
-When Laraconfig migrates the new settings, these are created to all models. You can filter a given set of settings through "bags". 
+When Laraconfig migrates the new settings, these are created to all models. You can filter a given set of settings through "bags".
 
 By default, all settings are created under the `users` bag, but you can change the default bag for anything using the `bag()` method.
 
@@ -178,7 +179,7 @@ use DarkGhostHunter\Laraconfig\Facades\Setting;
 
 Setting::name('color')->string()->default('black');
 
-// This new setting will be created 
+// This new setting will be created
 Setting::name('notifications')->boolean()->default(true);
 ```
 
@@ -192,7 +193,7 @@ use DarkGhostHunter\Laraconfig\Facades\Setting;
 // Commenting this line will remove the "color" setting on migration.
 // Setting::name('color')->string()->default('black');
 
-// This new setting will be created 
+// This new setting will be created
 Setting::name('notifications')->boolean()->default(true);
 ```
 
@@ -269,7 +270,7 @@ Behind the scenes, Laraconfig creates the new "theme" setting first, and then lo
 
 ## Managing Settings
 
-Laraconfig handles settings like any [Eloquent Morph-Many Relationship](https://laravel.com/docs/eloquent-relationships#one-to-many-polymorphic-relations), but supercharged. 
+Laraconfig handles settings like any [Eloquent Morph-Many Relationship](https://laravel.com/docs/eloquent-relationships#one-to-many-polymorphic-relations), but supercharged.
 
 Just simply use the `settings` property on your model. This property is like your normal [Eloquent Collection](https://laravel.com/docs/eloquent-collections), so you have access to all its tools.
 
@@ -292,7 +293,7 @@ In case you want to handle initialization manually, you can use the `shouldIniti
 
 /**
  * Check if the user should initialize settings automatically after creation.
- * 
+ *
  * @return bool
  */
 protected function shouldInitializeConfig(): bool
@@ -409,7 +410,7 @@ When [using the cache](#cache), any change invalidates the cache immediately and
 
 ### Defaulting a Setting
 
-You can turn the setting back to the default value using `setDefault()` on both the setting instance or using the `settings` property. 
+You can turn the setting back to the default value using `setDefault()` on both the setting instance or using the `settings` property.
 
 ```php
 $setting = $user->settings->get('color');
@@ -442,7 +443,7 @@ $user->settings->disable('color');
 ```
 
 > A disabled setting can be still set. If you want to set a value only if it's enabled, use `setIfEnabled()`.
-> 
+>
 > ```php
 > $user->settings->setIfEnabled('color', 'red');
 > ```
@@ -458,7 +459,7 @@ i
 
 The above will apply a filter to the query when retrieving settings from the database. This makes easy to swap bags when a user has a different role or property, or programmatically.
 
-> **All** settings are created for all models with `HasConfig` trait, regardless of the bags used by the model. 
+> **All** settings are created for all models with `HasConfig` trait, regardless of the bags used by the model.
 
 #### Disabling the bag filter scope
 
@@ -549,9 +550,9 @@ public function store(Request $request, User $user)
         'age' => 'required|numeric|min:14|max:100',
         'color' => 'required|string|in:red,green,blue'
     ]);
-    
+
     $user->settings->setIfEnabled($settings);
-    
+
     // ...
 }
 ```
@@ -570,11 +571,11 @@ public function test_user_has_settings(): void
         'bag'     => 'users',
         'group'   => 'default',
     ]);
-    
+
     $user = User::create([
         // ...
     ]);
-        
+
     // ...
 }
 ```
