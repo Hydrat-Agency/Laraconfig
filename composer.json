@@ -12,16 +12,16 @@
   ],
   "require": {
     "php": ">=8.2",
-    "illuminate/cache": "^11.0",
-    "illuminate/collections": "^11.0",
-    "illuminate/config": "^11.0",
-    "illuminate/database": "^11.0",
-    "illuminate/support": "^11.0"
+    "illuminate/cache": "^12.0",
+    "illuminate/collections": "^12.0",
+    "illuminate/config": "^12.0",
+    "illuminate/database": "^12.0",
+    "illuminate/support": "^12.0"
   },
   "require-dev": {
     "mockery/mockery": "^1.6",
     "orchestra/testbench": "^7.1",
-    "phpunit/phpunit": "^10.4.0"
+    "phpunit/phpunit": "^11.5.3"
   },
   "autoload-dev": {
     "psr-4": {
