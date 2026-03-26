@@ -5,6 +5,7 @@ I fixed some issues, and update dependencies for use with [Laravel](https://lara
 - For Laravel 10.x use version v1.5.x
 - For Laravel 11.x use version v1.6.x
 - For Laravel 12.x use version v1.7.x
+- For Laravel 13.x use version v1.8.x
 
 To install this repository, add this to your composer.json, change `master` to the branch you want:
 ```
